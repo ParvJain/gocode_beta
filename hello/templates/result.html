@@ -8,17 +8,22 @@
     <link href="{% static "main.css" %}" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <div id="map"></div>
+    <div id="googlemaps"  style="width:auto;width:500px;overflow:auto;"></div>
     <script>
 {% autoescape off %}
 var dataset = {{rel}};
 var myLatLng = {lat: {{lat}}, lng: {{lng}}};
-
+var map;
 function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 15,
+  map = new google.maps.Map(document.getElementById('googlemaps'), {
     center: myLatLng,
-    disableDefaultUI: true,
+    zoom: 16,
+    styles: [{
+      stylers: [{ visibility: 'simplified' }]
+    }, {
+      elementType: 'labels',
+      stylers: [{ visibility: 'off' }]
+    }]
   });
 
   var marker = new google.maps.Marker({

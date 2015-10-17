@@ -3,19 +3,20 @@ import json
 
 def getPlaces(query, latitude, longitude):
 	url = ('https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
-           'key=AIzaSyDC0jCu8MN8DPkIikVwubrerrP7ft4xYOA'
+           'key=AIzaSyChgLUNOff_e4napWsCsVumpGSAhBGY-yE '
            '&keyword={k}'
            '&location={l},{m}'
            '&radius=1000').format(k=query,l=latitude,m=longitude)
 
 	r = requests.get(url)
+	print r.text
 	send = []
 	data = json.loads(r.text)
 	
 	for x in data["results"]:
 		url = ('https://maps.googleapis.com/maps/api/place/details/json?'
 				   'placeid={place}'
-				   '&key=AIzaSyDC0jCu8MN8DPkIikVwubrerrP7ft4xYOA').format(place=x["place_id"])
+				   '&key= AIzaSyChgLUNOff_e4napWsCsVumpGSAhBGY-yE ').format(place=x["place_id"])
 
 		r = requests.get(url)
 		data2 = json.loads(r.text)
@@ -32,3 +33,5 @@ def getPlaces(query, latitude, longitude):
 		send.append(data3)
 
 	return send
+
+getPlaces("coffee",12.982470653198506,77.62573589101567)
