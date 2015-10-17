@@ -15,6 +15,7 @@ def index(request):
 		dataset = getPlaces(query, latitude, longitude)
 		jsonified = json.dumps(dataset)
 		return render(request, 'result.html', {"rel" : jsonified,
+											   "rel2": dataset,
 											   "lat" : latitude,
 											   "lng" : longitude})
 		

@@ -6,9 +6,27 @@
     <meta charset="utf-8">
     <title>Destination</title>
     <link href="{% static "main.css" %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
   </head>
   <body>
-    <div id="googlemaps"  style="width:auto;width:500px;overflow:auto;"></div>
+    <div id="googlemaps"  style="width:75%;overflow:auto;"></div>
+  <div class="row" style="z-index: 999; position: absolute; top: 10px; right: 10px;width:25%">
+  <div class="col-sm-12 col-md-12">
+    <div class="thumbnail">
+      <img src="..." alt="...">
+      <div class="caption">
+        <h3>Thumbnail label</h3>
+        <p>...</p>
+        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+    </div>
     <script>
 {% autoescape off %}
 var dataset = {{rel}};
