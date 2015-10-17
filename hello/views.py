@@ -18,7 +18,7 @@ def index(request):
 											   "lat" : latitude,
 											   "lng" : longitude})
 		
-	return render(request, 'db.html', {})
+	return render(request, 'index.html', {})
    # return HttpResponse('Hello from Python!')
 
 
