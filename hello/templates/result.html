@@ -1,1 +1,35 @@
-hello
+<!DOCTYPE html>
+<html>
+  <head>
+  {% load staticfiles %}
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Destination</title>
+    <link href="{% static "main.css" %}" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+{% autoescape off %}
+function initMap() {
+  var myLatLng = {lat: {{lat}}, lng: {{lng}}};
+  var dataset = {{rel}};
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: myLatLng,
+    disableDefaultUI: true
+  });
+
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+}
+{% endautoescape %}
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"></script>
+  </body>
+</html>

@@ -31,6 +31,4 @@ def getPlaces(query, latitude, longitude):
 			}
 		send.append(data3)
 
-	print send
-
-# getPlaces("Coffee",12.9858731,77.6204105)
+	return send
