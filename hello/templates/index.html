@@ -1,0 +1,25 @@
+<htmL>
+<head><title>HELLO</title></head>
+<body>
+<table>
+        <tr><th>S No</th>
+            <th>Model</th><th>Brand</th><th>RAM</th><th>Processor</th><th>Camera</th><th>Battery</th><th>Display</th><th>Price</th><th>Buy Online</th>
+        </tr>
+             {% for spec in specs.all %}{% if spec.avail == 1 %}
+        <tr>
+            <td>{{ spec.id }}</td>
+            <td>{{ spec.title }}</td>
+            <td>{{ spec.brand }}</td>
+            <td>{{ spec.memory }}
+            </td>
+            <td>{{ spec.processor }}</td>
+            <td>{{ spec.primary_camera }}</td>
+            <td>{{ spec.type_1 }}</td>
+            <td>{{ spec.size }}</td>
+            <td>{{ spec.price }}</td>
+            <td><a href="{{ spec.url }}">Flipkart</a></td>
+        </tr>
+            {% endif %}{% endfor %}
+        </table>
+        </body>
+</htmL>

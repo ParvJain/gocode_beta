@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>Destination-</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+      <div class="page-header">
+        <h1>Destination <small><i>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</i></small></h1>
+    </div>
+    <br><br><br><br>
+    <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+<form class="form-horizontal" method="POST" action=".">
+{% csrf_token %}
+    <div class="form-group">
+      <div class="input-group">
+      <span class="input-group-btn">
+        <a class="btn btn-default" onclick="getLocation()"><span class="glyphicon glyphicon-map-marker" ></span></a>
+      </span>
+      <input type="text" name="query" id="query" class="form-control" placeholder="Hotels, Café or pretty much anything you want.">
+       <input type="hidden" name="latitude" id="latitude" required>
+       <input type="hidden" name="longitude" id="longitude" required>
+       <span class="input-group-btn">
+        <button class="btn btn-primary" type="submit">Go!</button>
+      </span>
+    </div><!-- /input-group -->
+    </div>
+</form>
+</div>
+<div class="col-md-3"></div>
+</div>
+<script>
+var x = document.getElementById("demo");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+  document.getElementById("latitude").value=position.coords.latitude;
+  document.getElementById("longitude").value=position.coords.longitude;
+}
+</script>
+</body>
+</html>

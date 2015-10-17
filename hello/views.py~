@@ -1,0 +1,25 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.template import RequestContext, loader
+from hello.models import Specs
+
+# Create your views here.
+def index(request):
+	specs = Specs.objects.order_by('id')
+	template = loader.get_template('index.html')
+	context = RequestContext(request, {
+			'specs' : specs,
+		})
+	output = ", ".join([p.title for p in specs])
+	return HttpResponse(template.render(context))
+#    return HttpResponse('Hello from Python!')
+
+
+def db(request):
+
+    greeting = Greeting()
+    greeting.save()
+
+    greetings = Greeting.objects.all()
+
+    return render(request, 'db.html', {'greetings': greetings})
