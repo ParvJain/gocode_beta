@@ -11,22 +11,30 @@
     <div id="map"></div>
     <script>
 {% autoescape off %}
-function initMap() {
-  var myLatLng = {lat: {{lat}}, lng: {{lng}}};
-  var dataset = {{rel}};
+var dataset = {{rel}};
+var myLatLng = {lat: {{lat}}, lng: {{lng}}};
 
+function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 4,
+    zoom: 15,
     center: myLatLng,
-    disableDefaultUI: true
+    disableDefaultUI: true,
   });
 
   var marker = new google.maps.Marker({
     position: myLatLng,
     map: map,
-    title: 'Hello World!'
+    title: 'Hello World!',
   });
+
+  for (var i = dataset.length - 1; i >= 0; i--) {
+  	var marker = new google.maps.Marker({
+    position: {lat: dataset[i].latitude, lng: dataset[i].longitude},
+    map: map,
+	  });
+  };
 }
+
 {% endautoescape %}
     </script>
     <script async defer
