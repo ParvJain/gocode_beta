@@ -31,6 +31,9 @@ function initMap() {
   	var marker = new google.maps.Marker({
     position: {lat: dataset[i].latitude, lng: dataset[i].longitude},
     map: map,
+    icon: {
+      url: 'https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png',
+    }
 	  });
   };
 }
