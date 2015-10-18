@@ -12,7 +12,7 @@ def getPlaces(query, latitude, longitude):
 	r = requests.get(url)
 	send = []
 	data = json.loads(r.text)
-	return len(data["results"])
+	return data["results"]
 
 
 	# for x in data["results"]:
@@ -69,12 +69,20 @@ def rank(latitude, longitude, query):
 		lng = x["lo"]
 		name = x["hn"]
 		hid = x["hc"]
-		count = getPlaces(query, lat, lng)
+		gir_rat = x["gir_rat"]
+		distance = x["dist"]
+
+		gp = getPlaces(query, lat, lng)
+		count = len(gp)
 		data = {"hotel_name": name,
 				"latitude": lat,
 				"longitude": lng,
 				"hid": hid,
-				"count": count}
+				"count": count,
+				"ratings":gir_rat,
+				"distance": distance,
+				"interest": gp}
 		dataset.append(data)
 		# ds = sorted(dataset.items(), key=lambda x: x["count"])
 	return sorted(dataset, key=itemgetter('count'), reverse=True)
+
