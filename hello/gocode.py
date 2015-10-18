@@ -4,7 +4,7 @@ from operator import itemgetter
 
 def getPlaces(query, latitude, longitude):
 	url = ('https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
-           'key=AIzaSyAMuJ7rDnSjYdFPYQ2upDyJL0wGNkOie-8Q'
+           'key=AIzaSyAMuJ7rDnSjYdFPYQ2upDyJL0wGNkOie-8'
            '&keyword={k}'
            '&location={l},{m}'
            '&radius=1000').format(k=query,l=latitude,m=longitude)
@@ -18,7 +18,7 @@ def getPlaces(query, latitude, longitude):
 	# for x in data["results"]:
 	# 	url = ('https://maps.googleapis.com/maps/api/place/details/json?'
 	# 			   'placeid={place}'
-	# 			   '&key=AIzaSyAMuJ7rDnSjYdFPYQ2upDyJL0wGNkOie-8Q').format(place=x["place_id"])
+	# 			   '&key=AIzaSyAMuJ7rDnSjYdFPYQ2upDyJL0wGNkOie-8').format(place=x["place_id"])
 
 	# 	r = requests.get(url)
 	# 	data2 = json.loads(r.text)
@@ -39,7 +39,7 @@ def getPlaces(query, latitude, longitude):
 def getCity(latitude, longitude):
 	url = ('https://maps.googleapis.com/maps/api/geocode/json?'
 		   'address={lat},{lng}'
-		   '&key=AIzaSyAMuJ7rDnSjYdFPYQ2upDyJL0wGNkOie-8Q').format(lat=latitude,
+		   '&key=AIzaSyAMuJ7rDnSjYdFPYQ2upDyJL0wGNkOie-8').format(lat=latitude,
 		   														  lng=longitude)
 	r = requests.get(url)
 	data = json.loads(r.text)
