@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 import requests
 import json
-from gocode import getPlaces
+from gocode import getPlaces, getCity
+from models import city
 
 
 def index(request):
@@ -11,7 +12,9 @@ def index(request):
 		query = request.POST["query"]
 		latitude = request.POST["latitude"]
 		longitude = request.POST["longitude"]
-
+		cty = getCity(latitude, longitude)
+		ctyid = city.objects.get(city=cty).city_id
+		# print ctyid
 		dataset = getPlaces(query, latitude, longitude)
 		jsonified = json.dumps(dataset)
 		return render(request, 'result.html', {"rel" : jsonified,
@@ -21,13 +24,3 @@ def index(request):
 		
 	return render(request, 'index.html', {})
    # return HttpResponse('Hello from Python!')
-
-
-def db(request):
-
-    greeting = Greeting()
-    greeting.save()
-
-    greetings = Greeting.objects.all()
-
-    return render(request, 'db.html', {'greetings': greetings})
