@@ -1,5 +1,6 @@
 import requests
 import json
+from operator import itemgetter
 
 def getPlaces(query, latitude, longitude):
 	url = ('https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
@@ -11,27 +12,29 @@ def getPlaces(query, latitude, longitude):
 	r = requests.get(url)
 	send = []
 	data = json.loads(r.text)
-	
-	for x in data["results"]:
-		url = ('https://maps.googleapis.com/maps/api/place/details/json?'
-				   'placeid={place}'
-				   '&key=AIzaSyAPHbSgdQneYb2vouuoS6eaxWTNu50JviQ').format(place=x["place_id"])
+	return len(data["results"])
 
-		r = requests.get(url)
-		data2 = json.loads(r.text)
-		x = data2["result"]
-		data3 = {"name": x.get("name",""),
-			   	 "address": x.get("formatted_address",""),
-			   	 "phone": x.get("formatted_phone_number", ""),
-			   	 "website": x.get("website",""),
-			   	 "ratings": x.get("rating",""),
-			   	 "price_level": x.get("price_level",""),
-			   	 "latitude": data2["result"]["geometry"]["location"]["lat"],
-			   	 "longitude": data2["result"]["geometry"]["location"]["lng"]
-			}
-		send.append(data3)
 
-	return send
+	# for x in data["results"]:
+	# 	url = ('https://maps.googleapis.com/maps/api/place/details/json?'
+	# 			   'placeid={place}'
+	# 			   '&key=AIzaSyAPHbSgdQneYb2vouuoS6eaxWTNu50JviQ').format(place=x["place_id"])
+
+	# 	r = requests.get(url)
+	# 	data2 = json.loads(r.text)
+	# 	x = data2["result"]
+	# 	data3 = {"name": x.get("name",""),
+	# 		   	 "address": x.get("formatted_address",""),
+	# 		   	 "phone": x.get("formatted_phone_number", ""),
+	# 		   	 "website": x.get("website",""),
+	# 		   	 "ratings": x.get("rating",""),
+	# 		   	 "price_level": x.get("price_level",""),
+	# 		   	 "latitude": data2["result"]["geometry"]["location"]["lat"],
+	# 		   	 "longitude": data2["result"]["geometry"]["location"]["lng"]
+	# 		}
+	# 	send.append(data3)
+
+	# return send
 
 def getCity(latitude, longitude):
 	url = ('https://maps.googleapis.com/maps/api/geocode/json?'
@@ -44,20 +47,34 @@ def getCity(latitude, longitude):
 		if "locality" in x["types"]:
 			return x["address_components"][0]["long_name"]
 
-def getHotels(city_id):
-	url = ('http://developer.goibibo.com/api/voyager/get_hotels_by_cityid/?'
-		   'app_id=dde2de00'
-		   '&app_key=ac404774f7d4a5b54e205adcd00dc7ef'
-		   '&city_id=6771549831164675055')
+def getHotels(latitude, longitude):
+	city = getCity(latitude,longitude)
+	url = "https://voyager.goibibo.com/api/v1/hotels_search/find_node_by_name/?params={%22limit%22:1,%22search_query%22:%22"+ city +"%22}&flavour=android"
+	r = requests.get(url)
+	data = json.loads(r.text)
+	city_id = data["data"]["r"][0]["_id"]
+	# print city_id
+	url = str("https://www.goibibo.com/hotels/search-data/?vcid="+ str(city_id) +"&ci=20151018&co=20151019&r=1-1_0&pid=0&la="+ str(latitude) +"&lo="+ str(longitude) +"&s=nearby&f=%7B%22wl%22%3A%5B%5D%7D&flavour=android")
 
 	r = requests.get(url)
 	data = json.loads(r.text)
-	# print data["data"]["4325474491990470056"]["hotel_geo_node"]["name"]
-	for x in data["data"]:
-		name      = data["data"][x]["hotel_geo_node"]["name"]
-		latitude  = data["data"][x]["hotel_geo_node"]["location"]["lat"]
-		longitude = data["data"][x]["hotel_geo_node"]["location"]["lng"]
+	return data[city_id]
 
-getHotels(6771549831164675055)
+# getHotels(12.9747865,77.560566)
 # getCity(12.9747865,77.560566)
-# getPlaces("coffee",12.982470653198506,77.62573589101567)
+def rank(latitude, longitude, query):
+	dataset = []
+	for x in getHotels(latitude, longitude):
+		lat = x["la"]
+		lng = x["lo"]
+		name = x["hn"]
+		hid = x["hc"]
+		count = getPlaces(query, lat, lng)
+		data = {"hotel_name": name,
+				"latitude": lat,
+				"longitude": lng,
+				"hid": hid,
+				"count": count}
+		dataset.append(data)
+		# ds = sorted(dataset.items(), key=lambda x: x["count"])
+	return sorted(dataset, key=itemgetter('count'), reverse=True)
